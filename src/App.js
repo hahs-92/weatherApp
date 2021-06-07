@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+//ESTILOS
+import './styles/Global.css'
+import styles from './styles/App.module.css'
+
+//COMPONENTS
+import CardWheater from './components/CardWheater'
 
 function App() {
+  
+  const positionUser = ( position) => {
+      let placePosition = [ position.coords.latitude, position.coords.longitude]
+      // console.log(placePosition)
+  }
+
+  const errorNavigator = (error) => {
+      console.error(error.message)
+  }
+
+  navigator.geolocation.getCurrentPosition(positionUser, errorNavigator,{ enableHighAccuracy: true })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={ styles.App }>
+
+     <section className={ styles.Overview }>
+
+     </section>
+
+     <section className={ styles.Info }>
+       <div className={ styles.Info_Wrapper }>
+        <CardWheater />
+        <CardWheater />
+       </div>
+     </section>
+
     </div>
   );
 }
