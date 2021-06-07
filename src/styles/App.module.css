@@ -1,11 +1,86 @@
 .App {
     display: grid;
     grid-template: minmax(500px, 100vh) minmax(100px, auto) / minmax(320px, 1fr) ;
+    color: var(--color-white);
 }
 
 .Overview {
     grid-area: 1 / 1 / 2 / 2;
+    display: flex;
+    justify-content: center;
     background-color: var(--color-primary);
+}
+
+.Overview_Wrapper {
+    display: grid;
+    grid-template: 50px 1fr 1fr 50px / minmax(300px, 500px);
+    height: 100%;
+    width: 95%;
+}
+
+.Input {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.Imagen {
+    grid-area: 2 / 1 / 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Imagen img {
+    width: 50%;
+}
+
+.Content {
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+.Content_Title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Content_Title strong {
+    font-size: 6.0rem;
+}
+
+.Content_Title h1 {
+    width: fit-content;
+    font-size: 2.4rem;
+}
+
+.Content_SubTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.Content_SubTitle h2 {
+    width: fit-content;
+    font-size: 2.4rem;
+}
+
+.Content_Info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.Content_Info h4 {
+    font-size: 1.2rem;
+}
+
+.Date {
+    display: flex;
+    justify-content: space-between;
+    height: 25px;
+    width: 120px;
 }
 
 .Info {
@@ -16,9 +91,16 @@
     background-color: var(--color-BG);
 }
 
-.Info_Wrapper {
+.Info_CardMain {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     width: 85%;
+}
+
+.Info_Title {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 50px;
 }
