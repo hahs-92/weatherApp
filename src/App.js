@@ -4,6 +4,7 @@ import styles from './styles/App.module.css'
 
 //COMPONENTS
 import CardWheater from './components/CardWheater'
+import CardSecundary from './components/CardSecundary'
 
 import img from './assets/HeavyCloud.png'
 
@@ -65,9 +66,34 @@ function App() {
          <h2>Today</h2>
        </div>
 
-       <div>
-
+       <div className={ styles.Info_CardSecundary }>
+        <CardSecundary >
+          <div>Icon</div>
+          <div>
+            <h4>WSV</h4>
+          </div>
+        </CardSecundary>
+        <CardSecundary >
+          <section className={ styles.Numbers }>
+            <h4>0</h4>
+            <h4>50</h4>
+            <h4>100</h4>
+          </section>
+          <section className={ styles.Bar }>
+            <div></div>
+          </section>
+          <section className={ styles.Percentage }>
+            <h4>%</h4>
+          </section>
+        </CardSecundary>
+        <CardSecundary />
+        <CardSecundary />
+        <CardSecundary />
        </div>
+
+       <footer className={ styles.Info_Footer }>
+          <h4>Developed by HAHS</h4>
+       </footer>
      </section>
 
     </div>
