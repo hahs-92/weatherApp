@@ -88,7 +88,6 @@ function App() {
         </CardSecundary>
         <CardSecundary />
         <CardSecundary />
-        <CardSecundary />
        </div>
 
        <footer className={ styles.Info_Footer }>
