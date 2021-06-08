@@ -1,7 +1,6 @@
 .App {
     display: grid;
     grid-template: minmax(500px, 100vh) minmax(100px, auto) / minmax(320px, 1fr) ;
-    color: var(--color-white);
 }
 
 .Overview {
@@ -30,7 +29,7 @@
 }
 
 .Imagen img {
-    width: 50%;
+    width: 40%;
     max-width: 200px;
 }
 
@@ -44,44 +43,51 @@
     align-items: center;
 }
 
-.Content_Title strong {
-    font-size: 6.5rem;
+.Content_Title h1 span {
+    font-size: 9.0rem;
+    font-weight: 500;
+    color: var(--color-white);
 }
+
+.Content_Title sub {
+    font-size: 10.4rem;
+    font-weight: 500;
+    color: var(--color-white);
+}
+
 
 .Content_Title h1 {
     width: fit-content;
-    font-size: 2.4rem;
+    color: var(--color-gray);
 }
 
 .Content_SubTitle {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
+    height: 80px;
+    color: var(--color-gray);
 }
 
 .Content_SubTitle h2 {
     width: fit-content;
-    font-size: 2.4rem;
 }
 
 .Content_Info {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 70px;
+    color: var(--color-gray);
 }
 
-.Content_Info h4 {
-    font-size: 1.2rem;
-}
 
 .Date {
     display: flex;
     justify-content: space-between;
     height: 25px;
-    width: 120px;
+    width: 180px;
 }
 
 .Info {
@@ -111,6 +117,12 @@
     height: 100px;
 }
 
+.Info_Title h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-white);
+}
+
 .Info_CardSecundary {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
@@ -125,7 +137,7 @@
     display: flex;
     justify-content: space-between;
     width: 200px;
-    height: 10px;
+    height: 20px;
 }
 
 .Bar {
@@ -145,7 +157,7 @@
 .Percentage {
     display: flex;
     justify-content: flex-end;
-    height: 10px;
+    height: 20px;
     width: 200px;
 }
 
@@ -154,7 +166,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 60px;
+    height: 120px;
+    color: var(--color-white);
 }
 
 

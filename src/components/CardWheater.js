@@ -13,8 +13,8 @@ const CardWheater = () => {
                 <img src={ img } alt="img" />
             </div>
             <div className={ styles.Temperature }>
-                <h4>16C</h4>
-                <h4>14C</h4>
+                <h4>16°C</h4>
+                <h4 className={ styles.LastChildren }>14°C</h4>
             </div>
         </article>
     )

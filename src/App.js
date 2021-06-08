@@ -34,18 +34,19 @@ function App() {
           
           <section className={ styles.Content }>
             <div className={ styles.Content_Title }>
-              <h1><strong>15</strong>°C</h1>
+              <h1><span>1</span><sub>5</sub> °C</h1>
             </div>
             <div className={ styles.Content_SubTitle }>
               <h2>Shower</h2>
             </div>
             <div className={ styles.Content_Info }>
               <div className={ styles.Date }>
-                <h4>Today</h4>
-                <h4>Friday 5 june </h4>
+                <h3>Today</h3>
+                <h3>.</h3>
+                <h3>Fri. 5 june </h3>
               </div>
               <div className={ styles.Place }>
-                <h4>Helsinky</h4>
+                <h3>Helsinky</h3>
               </div>
             </div>
           </section>
@@ -63,7 +64,7 @@ function App() {
        </div>
 
        <div className={ styles.Info_Title }>
-         <h2>Today</h2>
+         <h2>Today’s Hightlights </h2>
        </div>
 
        <div className={ styles.Info_CardSecundary }>
