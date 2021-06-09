@@ -12,13 +12,41 @@
 
 .Overview_Wrapper {
     display: grid;
-    grid-template: 50px 1fr 1fr 50px / minmax(300px, 1fr);
+    grid-template: 80px 1fr 1fr 50px / minmax(300px, 1fr);
     height: 100%;
     width: 95%;
 }
 
 .Input {
     grid-area: 1 / 1 / 2 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Input button {
+    width: 150px;
+    height: 60%;
+    outline: none;
+    border: none;
+    font-size: 1.6rem;
+    font-family: var(--fontFamily);
+    color: white;
+    background-color: var(--color-dark-gray);
+}
+
+.UserLocation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+    width: 48px;
+    border-radius: 50%;
+    background-color: var(--color-dark-gray);
+}
+
+.UserLocation img {
+    width: 70%;
 }
 
 .Imagen {
@@ -90,6 +118,21 @@
     width: 180px;
 }
 
+.Place {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Place_Icon {
+    width: 30px;
+}
+
+.Place_Icon img {
+    width: 80%;
+}
+
 .Info {
     grid-area: 2 / 1 / 3 / 2;
     display: flex;
@@ -131,6 +174,21 @@
     grid-gap: 20px;
     width: 90%;
     max-width: 866px;
+}
+
+.Info_CardSecundary__Icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 100%;
+    background-color: var(--color-dark-gray);
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.Info_CardSecundary__Icon img {
+    width: 60%;
 }
 
 .Numbers {

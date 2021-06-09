@@ -7,6 +7,9 @@ import CardWheater from './components/CardWheater'
 import CardSecundary from './components/CardSecundary'
 
 import img from './assets/HeavyCloud.png'
+import imgLocationUser from './assets/cliente.svg'
+import imgIconLocation from './assets/pin.svg'
+import imgArrow from './assets/arrow.svg'
 
 function App() {
   
@@ -26,10 +29,15 @@ function App() {
 
      <section className={ styles.Overview }>
        <div className={ styles.Overview_Wrapper }>
-          <section className={ styles.Input }></section>
+          <section className={ styles.Input }>
+            <button>Search for places</button>
+            <div className={ styles.UserLocation }>
+              <img src={ imgLocationUser } alt="icon-user-location" />
+            </div>
+          </section>
 
           <section className={ styles.Imagen }>
-            <img src={ img } alt="image" />
+            <img src={ img } alt="ima" />
           </section>
           
           <section className={ styles.Content }>
@@ -46,6 +54,9 @@ function App() {
                 <h3>Fri. 5 june </h3>
               </div>
               <div className={ styles.Place }>
+                <div className={ styles.Place_Icon }>
+                  <img src={ imgIconLocation } alt="icon-location" />
+                </div>
                 <h3>Helsinky</h3>
               </div>
             </div>
@@ -69,7 +80,9 @@ function App() {
 
        <div className={ styles.Info_CardSecundary }>
         <CardSecundary >
-          <div>Icon</div>
+          <div className={ styles.Info_CardSecundary__Icon}>
+            <img src={ imgArrow } alt="icon-arrow" />
+          </div>
           <div>
             <h4>WSV</h4>
           </div>
