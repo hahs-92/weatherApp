@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 //ESTILOS
 import './styles/Global.css'
 import styles from './styles/App.module.css'
@@ -6,27 +8,73 @@ import styles from './styles/App.module.css'
 import CardWheater from './components/CardWheater'
 import CardSecundary from './components/CardSecundary'
 
-import img from './assets/HeavyCloud.png'
+//IMAGES
+import imgCloudBackground from './assets/Cloud-background.png' //BG
+
 import imgLocationUser from './assets/cliente.svg'
 import imgIconLocation from './assets/pin.svg'
 import imgArrow from './assets/arrow.svg'
 
+//HOOKS
+// import { useCoordUser } from './hooks/useCoordUser'
+
+//UTILS
+import { imgWheathers } from './utils/weatherImages'
+
+
 function App() {
-  
+  let placePosition = ''
+  const [ data, setData ] = useState([])
+  // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
+  const URLAPI = "https://www.metaweather.com/api/"
+  // const coordUser = useCoordUser()
+
+  // __________________________GEOPOSITION_________________________________________
   const positionUser = ( position) => {
-      let placePosition = [ position.coords.latitude, position.coords.longitude]
-      // console.log(placePosition)
+    placePosition = [ position.coords.latitude, position.coords.longitude] 
   }
-
   const errorNavigator = (error) => {
-      console.error(error.message)
+    console.error(error.message)
+  }
+  navigator.geolocation.getCurrentPosition(positionUser, errorNavigator,{ enableHighAccuracy: true } )
+  // _______________________________________________________________________________________
+
+  const getWoeidData = async(coord) => {
+    try {  
+      console.log("COORD " ,coord)
+      const response = await fetch(`https://www.metaweather.com/api/location/search/?lattlong=${ coord }`, {
+        headers: {
+               'Content-Type': 'application/json',
+               'Access-Control-Allow-Origin': '*',
+              }
+      })
+      const data = await response.json()
+      return data[0].woeid
+    } catch (error) {
+      console.error("ErrorgetWoeid ",error.message)
+    }
   }
 
-  navigator.geolocation.getCurrentPosition(positionUser, errorNavigator,{ enableHighAccuracy: true })
+  const getData = async() => {
+    try { 
+      const woeid =  await getWoeidData( placePosition)
+      const response = await fetch(`${ URLAPI }location/${ woeid }/`)
+      const info = await response.json()
+      setData(info.consolidated_weather)
+      console.log("DATA ",data)
+      // console.log(data.consolidated_weather)
+      // console.log("TEMPERATURA ", data.consolidated_weather[0].the_temp)
+    } catch (error) {
+      console.error("ErrorGetData ",error.message)
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  },[])
 
   return (
     <div className={ styles.App }>
-
      <section className={ styles.Overview }>
        <div className={ styles.Overview_Wrapper }>
           <section className={ styles.Input }>
@@ -35,17 +83,24 @@ function App() {
               <img src={ imgLocationUser } alt="icon-user-location" />
             </div>
           </section>
-
           <section className={ styles.Imagen }>
-            <img src={ img } alt="ima" />
+            {
+              data.length > 0 &&
+                <img src={ imgWheathers[data[0].weather_state_abbr] } alt="image-wheater" /> 
+            }
           </section>
-          
           <section className={ styles.Content }>
             <div className={ styles.Content_Title }>
-              <h1><span>1</span><sub>5</sub> °C</h1>
+              {
+                data.length > 0 &&
+                <h1><span>{ data[0].the_temp.toString().charAt(0)  }</span><sub>{ data[0].the_temp.toString().charAt(1) }</sub> °C</h1>
+              }
             </div>
             <div className={ styles.Content_SubTitle }>
-              <h2>Shower</h2>
+              {
+                data.length > 0 &&
+                <h2>{ data[0].weather_state_name }</h2>
+              }
             </div>
             <div className={ styles.Content_Info }>
               <div className={ styles.Date }>
