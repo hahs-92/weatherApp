@@ -1,15 +1,15 @@
 //ESTILOS
 import styles from '../styles/components/CardSecundary.module.css'
 
-const CardSecundary = ({ children }) => {
+const CardSecundary = ({ children, title, data, subTitle }) => {
     return(
         <article className={ styles.CardSecundary }>
             <section className={ styles.Title }>
-                <h4>Humidity</h4>
+                <h4>{ title }</h4>
             </section>
 
             <section className={ styles.Data }>
-               <h2><strong>6,4 </strong>miles</h2>
+               <h2><strong>{ data }</strong>{ subTitle }</h2>
             </section>
             
             {
