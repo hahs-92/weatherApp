@@ -1,34 +1,32 @@
 import { useEffect, useState } from 'react'
-
 //ESTILOS
 import './styles/Global.css'
 import styles from './styles/App.module.css'
-
 //COMPONENTS
 import CardWheater from './components/CardWheater'
 import CardSecundary from './components/CardSecundary'
-
-//IMAGES
-import imgCloudBackground from './assets/Cloud-background.png' //BG
-
+//IMAGE
+import imgSearch from './assets/lupa.svg'
 import imgLocationUser from './assets/cliente.svg'
 import imgIconLocation from './assets/pin.svg'
 import imgArrow from './assets/arrow.svg'
-
 //HOOKS
 // import { useCoordUser } from './hooks/useCoordUser'
-
 //UTILS
 import { imgWheathers } from './utils/weatherImages'
 
 
 function App() {
   let placePosition = ''
+  const QUERYLATLOT = 'lattlong'
+  const QUERY = 'query'
+  const [ active, setActive ] = useState(false)
   const [ data, setData ] = useState([])
   const [ location, setLocation ] = useState('')
+  const [ coords, setCoords ] = useState('')
+  const [ loading, setLoading ] = useState(false)
   // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
   const URLAPI = "https://www.metaweather.com/api/"
-  // const coordUser = useCoordUser()
 
   // __________________________GEOPOSITION_________________________________________
   const positionUser = ( position) => {
@@ -40,9 +38,9 @@ function App() {
   navigator.geolocation.getCurrentPosition(positionUser, errorNavigator,{ enableHighAccuracy: true } )
   // _______________________________________________________________________________________
 
-  const getWoeidData = async(coord) => {
+  const getWoeidData = async(coord, query = QUERYLATLOT) => {
     try {  
-      const response = await fetch(`https://www.metaweather.com/api/location/search/?lattlong=${ coord }`, {
+      const response = await fetch(`https://www.metaweather.com/api/location/search/?${ query }=${ coord }`, {
         headers: {
                'Content-Type': 'application/json',
                'Access-Control-Allow-Origin': '*',
@@ -56,18 +54,51 @@ function App() {
     }
   }
 
-  const getData = async() => {
+  const formatDate = (date) => {
+    let newDate = new Date(date).toDateString().split(' ')
+    return `${ newDate[0] }, ${ newDate[2] } ${ newDate[1] }`
+  }
+
+  const getData = async(coords= placePosition, query= QUERYLATLOT ) => {
+    setLoading(true)
     try { 
-      const woeid =  await getWoeidData( placePosition)
+      const woeid =  await getWoeidData( coords, query)
       const response = await fetch(`${ URLAPI }location/${ woeid }/`)
       const info = await response.json()
       setData(info.consolidated_weather)
-      console.log("DATA ",data)
-      // console.log(data.consolidated_weather)
-      // console.log("TEMPERATURA ", data.consolidated_weather[0].the_temp)
+      setLoading(false)
     } catch (error) {
       console.error("ErrorGetData ",error.message)
     }
+  }
+
+  const handleOnClick = () => {
+    setActive(true)
+  }
+
+  const handleCancel = () => {
+    setActive(false)
+  }
+
+  const handleSearch = () => {
+    if(!coords) {
+      return false
+    }
+    getData(coords)
+    setActive(false)
+  }
+
+  const handleOnChange = (e) => {
+    setCoords(e.target.value)
+  }
+
+  const handleInitialData = () => {
+    getData()
+  }
+
+  const handleSearchCountry = (e) => {
+    getData(e.target.value, QUERY)
+    setActive(false)
   }
 
   useEffect(() => {
@@ -77,57 +108,61 @@ function App() {
   return (
     <div className={ styles.App }>
      <section className={ styles.Overview }>
-       <div className={ styles.Overview_Wrapper }>
-          <section className={ styles.Input }>
-            <button>Search for places</button>
-            <div className={ styles.UserLocation }>
-              <img src={ imgLocationUser } alt="icon-user-location" />
+       {
+         loading 
+          ? <h1>Loading...</h1>
+          : 
+            <div className={ styles.Overview_Wrapper }>
+                <section className={ styles.Background }></section>
+                <section className={ styles.Input }>
+                  <button type='button' onClick={ handleOnClick }>Search for places</button>
+                  <div className={ styles.UserLocation } onClick={ handleInitialData }>
+                    <img src={ imgLocationUser } alt="icon-user-location" title='User Location' />
+                  </div>
+                </section>
+                <section className={ styles.Imagen }>
+                  {
+                    data.length > 0 &&
+                      <img src={ imgWheathers[data[0].weather_state_abbr] } alt="image-wheater" /> 
+                  }
+                </section>
+                <section className={ styles.Content }>
+                  <div className={ styles.Content_Title }>
+                    {
+                      data.length > 0 &&
+                      <h1><span>{ data[0].the_temp.toString().charAt(0)  }</span><sub>{ data[0].the_temp.toString().charAt(1) }</sub> °C</h1>
+                    }
+                  </div>
+                  <div className={ styles.Content_SubTitle }>
+                    {
+                      data.length > 0 &&
+                      <h2>{ data[0].weather_state_name }</h2>
+                    }
+                  </div>
+                  <div className={ styles.Content_Info }>
+                    <div className={ styles.Date }>
+                      <h3>Today</h3>
+                      <h3>.</h3>
+                      {
+                        data.length > 0 &&
+                        <h3>{ formatDate(data[0].applicable_date) }</h3>
+                        // <h3>Fri. 5 june </h3>
+                      }
+                    </div>
+                    <div className={ styles.Place }>
+                      <div className={ styles.Place_Icon }>
+                        <img src={ imgIconLocation } alt="icon-location" />
+                      </div>
+                      {
+                        data.length > 0 &&
+                        <h3>{ location }</h3>
+                      }
+                    </div>
+                  </div>
+                </section>
             </div>
-          </section>
-          <section className={ styles.Imagen }>
-            {
-              data.length > 0 &&
-                <img src={ imgWheathers[data[0].weather_state_abbr] } alt="image-wheater" /> 
-            }
-          </section>
-          <section className={ styles.Content }>
-            <div className={ styles.Content_Title }>
-              {
-                data.length > 0 &&
-                <h1><span>{ data[0].the_temp.toString().charAt(0)  }</span><sub>{ data[0].the_temp.toString().charAt(1) }</sub> °C</h1>
-              }
-            </div>
-            <div className={ styles.Content_SubTitle }>
-              {
-                data.length > 0 &&
-                <h2>{ data[0].weather_state_name }</h2>
-              }
-            </div>
-            <div className={ styles.Content_Info }>
-              <div className={ styles.Date }>
-                <h3>Today</h3>
-                <h3>.</h3>
-                {
-                  data.length > 0 &&
-                  <h3>{ data[0].applicable_date }</h3>
-                  // <h3>Fri. 5 june </h3>
-                }
-              </div>
-              <div className={ styles.Place }>
-                <div className={ styles.Place_Icon }>
-                  <img src={ imgIconLocation } alt="icon-location" />
-                </div>
-                {
-                  data.length > 0 &&
-                  <h3>{ location }</h3>
-                }
-              </div>
-            </div>
-          </section>
-       </div>
-
+       }
      </section>
-
      <section className={ styles.Info }>
        <div className={ styles.Info_CardMain }>
          {
@@ -140,25 +175,25 @@ function App() {
               min= {  parseInt(data[0].min_temp).toString() }
             />
             <CardWheater 
-              title={ data[1].applicable_date} 
+              title={ formatDate(data[1].applicable_date) } 
               imagen={ imgWheathers[data[1].weather_state_abbr] }
               max={ parseInt(data[1].max_temp).toString() }
               min= {  parseInt(data[1].min_temp).toString() }
             />
             <CardWheater 
-              title={ data[2].applicable_date }
+              title={ formatDate(data[2].applicable_date) }
               imagen={ imgWheathers[data[2].weather_state_abbr] }
               max={ parseInt(data[2].max_temp).toString() }
               min= {  parseInt(data[2].min_temp).toString() }
             />
             <CardWheater 
-              title={ data[3].applicable_date} 
+              title={ formatDate(data[3].applicable_date) } 
               imagen={ imgWheathers[data[3].weather_state_abbr] }
               max={ parseInt(data[3].max_temp).toString() }
               min= {  parseInt(data[3].min_temp).toString() }
             />
             <CardWheater 
-              title={ data[4].applicable_date} 
+              title={ formatDate(data[4].applicable_date) } 
               imagen={ imgWheathers[data[4].weather_state_abbr] }
               max={ parseInt(data[4].max_temp).toString() }
               min= {  parseInt(data[4].min_temp).toString() }
@@ -189,9 +224,7 @@ function App() {
                 <h4>50</h4>
                 <h4>100</h4>
               </section>
-              <section className={ styles.Bar }>
-                <div></div>
-              </section>
+              <progress className={ styles.Bar } value={  data[0].humidity } max='100' ></progress>
               <section className={ styles.Percentage }>
                 <h4>%</h4>
               </section>
@@ -207,6 +240,37 @@ function App() {
        </footer>
      </section>
 
+      <section className={ active ? `${ styles.Search } ${ styles.Search__active }` : styles.Search }>
+        <section className={ styles.Search_cancel }>
+          <button type='button' onClick={ handleCancel }>X</button>
+        </section>
+        <section className={ styles.Coords }>
+          <div className={ styles.Coords_Label }>
+            <label htmlFor="lat-long">Search: lat, long</label>
+          </div>
+          <div className={ styles.Coords_input }>
+            <img src={ imgSearch } alt="search-icon" />
+            <input id='lat-long' type="text" placeholder='5.8755834, -73.6688084' required onChange={ handleOnChange }/>
+          </div>
+          <div className={ styles.Coords_button }>
+            <input type="button" value='search' onClick={ handleSearch }/>
+          </div>
+        </section>
+        <section className={ styles.OptionsList }>
+          <select name="countries" id="countries" onChange={ handleSearchCountry }>
+            <option value="Bogotá">Bogota</option>
+            <option value="Barcelona">Barcelona</option>
+            <option value="Brasília">Brasília</option >
+            <option value="New York">New York</option >
+            <option value="London">London</option>
+            <option value="Berlin">Berlin</option>
+            <option value="Tokyo">Tokyo</option >
+            <option value="Beijing">Beijing</option>
+            <option value="Sydney">Sydney</option >
+            <option value="Moscow">Moscow</option>
+          </select>
+        </section>
+      </section>
     </div>
   );
 }
