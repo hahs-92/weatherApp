@@ -5,13 +5,12 @@ import styles from './styles/App.module.css'
 //COMPONENTS
 import CardWheater from './components/CardWheater'
 import CardSecundary from './components/CardSecundary'
+import Loader from './components/Loader'
 //IMAGE
 import imgSearch from './assets/lupa.svg'
 import imgLocationUser from './assets/cliente.svg'
 import imgIconLocation from './assets/pin.svg'
 import imgArrow from './assets/arrow.svg'
-//HOOKS
-// import { useCoordUser } from './hooks/useCoordUser'
 //UTILS
 import { imgWheathers } from './utils/weatherImages'
 
@@ -102,7 +101,7 @@ function App() {
   }
 
   useEffect(() => {
-    getData()
+    getData()// eslint-disable-next-line 
   },[])
 
   return (
@@ -110,7 +109,7 @@ function App() {
      <section className={ styles.Overview }>
        {
          loading 
-          ? <h1>Loading...</h1>
+          ? <Loader />
           : 
             <div className={ styles.Overview_Wrapper }>
                 <section className={ styles.Background }></section>
@@ -123,7 +122,7 @@ function App() {
                 <section className={ styles.Imagen }>
                   {
                     data.length > 0 &&
-                      <img src={ imgWheathers[data[0].weather_state_abbr] } alt="image-wheater" /> 
+                      <img src={ imgWheathers[data[0].weather_state_abbr] } alt="icon-wheater" /> 
                   }
                 </section>
                 <section className={ styles.Content }>
@@ -146,7 +145,6 @@ function App() {
                       {
                         data.length > 0 &&
                         <h3>{ formatDate(data[0].applicable_date) }</h3>
-                        // <h3>Fri. 5 june </h3>
                       }
                     </div>
                     <div className={ styles.Place }>
@@ -268,6 +266,7 @@ function App() {
             <option value="Beijing">Beijing</option>
             <option value="Sydney">Sydney</option >
             <option value="Moscow">Moscow</option>
+            <option value="Cairo">Cairo</option>
           </select>
         </section>
       </section>
