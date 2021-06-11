@@ -25,6 +25,7 @@ function App() {
   const [ error, setError ] = useState(false)
   const [ isWrong,  setIsWrong ] = useState(false)
   // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
+  const CORS_PROXY_URL = 'https://api.allorigins.win/get?url='
   const URLAPI = "https://www.metaweather.com/api/"
   let placePosition = ''
   const QUERYLATLOT = 'lattlong'
@@ -42,7 +43,7 @@ function App() {
 
   const getWoeidData = async(coord, query = QUERYLATLOT) => {
     try {  
-      const response = await fetch(`${URLAPI }location/search/?${ query }=${ coord }`, {
+      const response = await fetch(`${ CORS_PROXY_URL}${URLAPI }location/search/?${ query }=${ coord }`, {
         method:'GET',
         headers: {
                'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ function App() {
     setLoading(true)
     try { 
       const woeid =  await getWoeidData( coords, query)
-      const response = await fetch(`${ URLAPI }location/${ woeid }/`,{
+      const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/${ woeid }/`,{
         method:'GET',
         headers: {
           'Content-Type': 'application/json',
