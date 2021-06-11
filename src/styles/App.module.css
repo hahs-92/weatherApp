@@ -22,17 +22,6 @@
     background-color: var(--color-BG);
 }
 
-/* .Info_CardMain {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(135px,1fr));
-    grid-auto-rows: auto;
-    justify-items: center;
-    grid-gap: 20px;
-    margin-top: 40px;
-    width: 85%;
-    max-width: 866px;
-} */
-
 .Info_Title {
     display: flex;
     align-items: center;
@@ -45,64 +34,6 @@
     font-size: 2.4rem;
     font-weight: 700;
     color: var(--color-white);
-}
-
-.Info_CardSecundary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    justify-items: center;
-    grid-auto-rows: auto;
-    grid-gap: 20px;
-    width: 90%;
-    max-width: 866px;
-}
-
-.Info_CardSecundary__Icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 100%;
-    background-color: var(--color-dark-gray);
-    border-radius: 50%;
-    margin-right: 12px;
-}
-
-.Info_CardSecundary__Icon img {
-    width: 60%;
-}
-
-.Numbers {
-    display: flex;
-    justify-content: space-between;
-    width: 200px;
-    height: 20px;
-}
-
-
-.Bar {
-    width: 200px;
-    appearance: none;
-}
-
-.Bar::-webkit-progress-bar {
-    width: 200px;
-    height: 10px;
-    border-radius: 999px;
-    background-color: var(--color-gray);
-}
-
-.Bar::-webkit-progress-value {
-    height: 100%;
-    background-color: var(--color-yellow);
-    border-radius: 999px;
-}
-
-.Percentage {
-    display: flex;
-    justify-content: flex-end;
-    height: 20px;
-    width: 200px;
 }
 
 .Search {
@@ -119,100 +50,6 @@
     opacity: 1;
     z-index: 2;
     animation: SlideIn .3 ease ;
-}
-
-.Search_cancel {
-    grid-area: 1 / 1 / 2 / 2;
-    justify-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 90%;
-}
-
-.Search_cancel button {
-    width: 30px;
-    height: 30px;
-    border: none;
-    outline: none;
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    font-size: 1.8rem;
-    cursor: pointer;
-}
-
-.Coords {
-    grid-area: 2 / 1 / 3 / 2;
-    align-self: center;
-    justify-self: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    height: 80%;
-}
-
-.Coords_Label {
-    width: 100%;
-}
-
-.Coords label {
-    color: var(--color-white);
-    font-size: 1.6rem;
-}
-
-.Coords_input {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    width: 70%;
-    max-width: 350px;
-    height: 40px;
-    border: 1px solid var(--color-white);
-}
-
-.Coords_input img {
-    width: 20px;
-}
-
-.Coords_input input {
-    width: 80%;
-    height: 80%;
-    border: none;
-    outline: none;
-    background-color: var(--color-primary);
-    color: var(--color-white);
-}
-
-.Coords_button {
-    width: 25%;
-    height: 40px;
-}
-
-.Coords_button input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: var(--color-blue);
-    color: var(--color-white);
-    font-size: 1.6rem;
-    font-family: var(--fontFamily);
-    cursor: pointer;
-}
-
-.Coords_alert {
-    color: var(--color-yellow);
-}
-
-.OptionsList {
-    grid-area: 3 / 1 / 4 / 2;
-    justify-self: center;
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
 }
 
 .Info_Footer {
