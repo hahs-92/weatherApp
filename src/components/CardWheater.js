@@ -3,7 +3,7 @@ import styles from '../styles/components/CardWheater.module.css'
 
 const CardWheater = (props) => {
     return(
-        <article className={ styles.CardWheater }>
+        <article className={ styles.CardWheater }>        
             <div className={ styles.Title }>
                 <h4>{ props.title }</h4>
             </div>
@@ -13,7 +13,7 @@ const CardWheater = (props) => {
             <div className={ styles.Temperature }>
                 <h4>{ props.max }°C</h4>
                 <h4 className={ styles.LastChildren }> { props.min }°C </h4>
-            </div>
+            </div>     
         </article>
     )
 }

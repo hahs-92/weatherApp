@@ -2,6 +2,7 @@
     display: grid;
     grid-template: minmax(500px, 100vh) minmax(100px, auto) / minmax(320px, 1fr) ;
     transition: all .5s;
+    background-color: var(--color-primary);
 }
 
 .Overview {
@@ -152,6 +153,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     background-color: var(--color-BG);
 }
 

@@ -1,0 +1,42 @@
+.Error {
+    grid-area: 1 / 1 / 2 / 3;
+    justify-self: center;
+    align-self: center;
+    width: 80%;
+    height: 500px;
+    max-width: 280px;
+    color: var(--color-white);
+}
+
+.Imagen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Imagen img {
+    width: 60%;
+}
+
+.Error h3 {
+    text-align: center;
+}
+
+.Home {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Home button {
+    width: 120px;
+    height: 40px;
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    border: none;
+    outline: none;
+    font-size: 1.8rem;
+    font-family: var(--fontFamily);
+    cursor: pointer;
+}
