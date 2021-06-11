@@ -335,6 +335,10 @@
     cursor: pointer;
 }
 
+.Coords_alert {
+    color: var(--color-yellow);
+}
+
 .OptionsList {
     grid-area: 3 / 1 / 4 / 2;
     justify-self: center;

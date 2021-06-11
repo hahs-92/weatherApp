@@ -26,6 +26,7 @@ function App() {
   const [ coords, setCoords ] = useState('')
   const [ loading, setLoading ] = useState(false)
   const [ error, setError ] = useState(false)
+  const [ isWrong,  setIsWrong ] = useState(false)
   // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
   const URLAPI = "https://www.metaweather.com/api/"
 
@@ -41,7 +42,7 @@ function App() {
 
   const getWoeidData = async(coord, query = QUERYLATLOT) => {
     try {  
-      const response = await fetch(`https://www.metaweather.com/api/location/search/?${ query }=${ coord }`, {
+      const response = await fetch(`${URLAPI }location/search/?${ query }=${ coord }`, {
         headers: {
                'Content-Type': 'application/json',
                'Access-Control-Allow-Origin': '*',
@@ -70,6 +71,7 @@ function App() {
       setLoading(false)
     } catch (error) {
       setError(true)
+      setCoords('')
       console.error("ErrorGetData ",error.message)
     }
   }
@@ -83,11 +85,13 @@ function App() {
   }
 
   const handleSearch = () => {
-    if(!coords) {
+    if(!coords.split('').includes(',') || !coords) {
+      setIsWrong(true)
       return false
     }
     getData(coords)
     setActive(false)
+    setIsWrong(false)
   }
 
   const handleOnChange = (e) => {
@@ -101,6 +105,7 @@ function App() {
   const handleSearchCountry = (e) => {
     getData(e.target.value, QUERY)
     setActive(false)
+    setIsWrong(false)
   }
 
   const handleRestart = () => {
@@ -271,6 +276,12 @@ function App() {
                     <div className={ styles.Coords_button }>
                       <input type="button" value='search' onClick={ handleSearch }/>
                     </div>
+                    {
+                      isWrong &&
+                      <div className={ styles.Coords_alert }>
+                          <h4>Please enter coordinates</h4>
+                      </div>
+                    }
                   </section>
                   <section className={ styles.OptionsList }>
                     <select name="countries" id="countries" onChange={ handleSearchCountry }>
