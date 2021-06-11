@@ -17,9 +17,6 @@ import { imgWheathers } from './utils/weatherImages'
 
 
 function App() {
-  let placePosition = ''
-  const QUERYLATLOT = 'lattlong'
-  const QUERY = 'query'
   const [ active, setActive ] = useState(false)
   const [ data, setData ] = useState([])
   const [ location, setLocation ] = useState('')
@@ -29,6 +26,9 @@ function App() {
   const [ isWrong,  setIsWrong ] = useState(false)
   // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
   const URLAPI = "https://www.metaweather.com/api/"
+  let placePosition = ''
+  const QUERYLATLOT = 'lattlong'
+  const QUERY = 'query'
 
   // __________________________GEOPOSITION_________________________________________
   const positionUser = ( position) => {
