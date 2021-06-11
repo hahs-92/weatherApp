@@ -24,7 +24,7 @@ function App() {
   const [ loading, setLoading ] = useState(false)
   const [ error, setError ] = useState(false)
   const [ isWrong,  setIsWrong ] = useState(false)
-  const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
+  // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
   const URLAPI = "https://www.metaweather.com/api/"
   let placePosition = ''
   const QUERYLATLOT = 'lattlong'
