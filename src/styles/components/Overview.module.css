@@ -1,0 +1,135 @@
+
+.Overview_Wrapper {
+    display: grid;
+    grid-template: 80px 1fr 1fr 50px / minmax(300px, 1fr);
+    height: 100%;
+    width: 95%;
+}
+
+.Input {
+    grid-area: 1 / 1 / 2 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Input button {
+    width: 150px;
+    height: 60%;
+    outline: none;
+    border: none;
+    font-size: 1.6rem;
+    font-family: var(--fontFamily);
+    color: white;
+    background-color: var(--color-dark-gray);
+    cursor: pointer;
+}
+
+.UserLocation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+    width: 48px;
+    border-radius: 50%;
+    background-color: var(--color-dark-gray);
+    cursor: pointer;
+}
+
+.UserLocation img {
+    width: 70%;
+}
+
+.Imagen {
+    grid-area: 2 / 1 / 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.Background {
+    grid-area: 2 / 1 / 3 / 2;
+    background-image: url('../../assets/Cloud-background.png');
+    background-position: bottom;
+    background-repeat: no-repeat;
+    height: 90%;
+    opacity: .1;
+}
+
+.Imagen img {
+    width: 40%;
+    max-width: 200px;
+}
+
+.Content {
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+.Content_Title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Content_Title h1 span {
+    font-size: 9.0rem;
+    font-weight: 500;
+    color: var(--color-white);
+}
+
+.Content_Title sub {
+    font-size: 10.4rem;
+    font-weight: 500;
+    color: var(--color-white);
+}
+
+
+.Content_Title h1 {
+    width: fit-content;
+    color: var(--color-gray);
+}
+
+.Content_SubTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    color: var(--color-gray);
+}
+
+.Content_SubTitle h2 {
+    width: fit-content;
+}
+
+.Content_Info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    color: var(--color-gray);
+}
+
+
+.Date {
+    display: flex;
+    justify-content: space-between;
+    height: 25px;
+    width: 180px;
+}
+
+.Place {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Place_Icon {
+    width: 30px;
+}
+
+.Place_Icon img {
+    width: 80%;
+}

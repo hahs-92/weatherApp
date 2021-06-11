@@ -1,0 +1,10 @@
+.InfoCardMain {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(135px,1fr));
+    grid-auto-rows: auto;
+    justify-items: center;
+    grid-gap: 20px;
+    margin-top: 40px;
+    width: 85%;
+    max-width: 866px;
+}

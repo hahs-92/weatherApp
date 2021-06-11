@@ -3,18 +3,17 @@ import { useState } from 'react'
 import './styles/Global.css'
 import styles from './styles/App.module.css'
 //COMPONENTS
-import CardWheater from './components/CardWheater'
 import CardSecundary from './components/CardSecundary'
 import Loader from './components/Loader'
 import Error from './components/Error'
 import ItemSearch from './components/ItemSearch'
+import Overview from './components/Overview'
+import InfoCardMain from './components/InfoCardMain'
 //IMAGE
 import imgSearch from './assets/lupa.svg'
-import imgLocationUser from './assets/cliente.svg'
-import imgIconLocation from './assets/pin.svg'
 import imgArrow from './assets/arrow.svg'
-//UTILS
-import { imgWheathers } from './utils/weatherImages'
+//CONTEXT
+import { AppContext } from './context/AppContext'
 
 
 function App() {
@@ -55,11 +54,6 @@ function App() {
     }
   }
 
-  const formatDate = (date) => {
-    let newDate = new Date(date).toDateString().split(' ')
-    return `${ newDate[0] }, ${ newDate[2] } ${ newDate[1] }`
-  }
-
   const getData = async(query ) => {
     setLoading(true)
     try { 
@@ -73,10 +67,6 @@ function App() {
       setCoords('')
       console.error("ErrorGetData ",error.message)
     }
-  }
-
-  const handleOnClick = () => {
-    setActive(true)
   }
 
   const handleCancel = () => {
@@ -98,169 +88,80 @@ function App() {
 
   const handleGetData = (query) => { //ESTO SE PASA COMO PROPS
     const COUNTRYWEOID = query.target.dataset.woeid || query.target.parentElement.dataset.woeid || query.target.parentElement.parentElement.dataset.woeid
+    const COUNTRY = query.target.innerText  || query.target.parentElement.innerText || query.target.parentElement.parentElement.innerText
     getData(COUNTRYWEOID)
     setActive(false)
+    setFilters([])
+    setLocation(COUNTRY)
   }
-
-  // const handleSearchCountry = (e) => {
-  //   getData(e.target.value, QUERY)
-  //   setActive(false)
-  //   setIsWrong(false)
-  // }
 
   const handleRestart = () => {
     getData()
     setError(false)
   }
 
-  // useEffect(() => {
-  //   getData()// eslint-disable-next-line 
-  // },[])
-
   return (
-    <div className={ styles.App }>
-      {
-        error 
-          ? <Error handle={ handleRestart }/>
-          : 
-            <>
-              <section className={ styles.Overview }>
-                {
-                  loading 
-                    ? <Loader />
-                    : 
-                      <div className={ styles.Overview_Wrapper }>
-                          <section className={ styles.Background }></section>
-                          <section className={ styles.Input }>
-                            <button type='button' onClick={ handleOnClick }>Search for places</button>
-                            <div className={ styles.UserLocation } >
-                              <img src={ imgLocationUser } alt="icon-user-location" title='User Location' />
-                            </div>
-                          </section>
-                          <section className={ styles.Imagen }>
+    <AppContext.Provider value={ { data, setData, active, setActive, location, setLocation } }> 
+      <div className={ styles.App }>
+        {
+          error 
+            ? <Error handle={ handleRestart }/>
+            : 
+              <>
+                <section className={ styles.Overview }>
+                  {
+                    loading 
+                      ? <Loader />
+                      : <Overview />
+                  }
+                </section>
+                <section className={ styles.Info }>
+                  {
+                    loading 
+                      ? <Loader />
+                      : 
+                        <>
+                          <InfoCardMain />
+
+                          <div className={ styles.Info_Title }>
+                            <h2>Today’s Hightlights </h2>
+                          </div>
+
+                          <div className={ styles.Info_CardSecundary }>
                             {
                               data.length > 0 &&
-                                <img src={ imgWheathers[data[0].weather_state_abbr] } alt="icon-wheater" /> 
+                              <>
+                                <CardSecundary title='Wind status' data={ parseInt(data[0].wind_speed).toString() } subTitle='mph'>
+                                  <div className={ styles.Info_CardSecundary__Icon}>
+                                    <img src={ imgArrow } alt="icon-arrow" />
+                                  </div>
+                                  <div>
+                                    <h4>WSV</h4>
+                                  </div>
+                                </CardSecundary>
+                                <CardSecundary title='Humidity' data={ parseInt(data[0].humidity).toString() } subTitle='%'>
+                                  <section className={ styles.Numbers }>
+                                    <h4>0</h4>
+                                    <h4>50</h4>
+                                    <h4>100</h4>
+                                  </section>
+                                  <progress className={ styles.Bar } value={  data[0].humidity } max='100' ></progress>
+                                  <section className={ styles.Percentage }>
+                                    <h4>%</h4>
+                                  </section>
+                                </CardSecundary >
+                                <CardSecundary title='Visibility' data={ parseInt(data[0].visibility).toString() } subTitle='miles'/>
+                                <CardSecundary title='Air Pressure' data={ parseInt(data[0].air_pressure).toString() } subTitle='mb'/>
+                              </>
                             }
-                          </section>
-                          <section className={ styles.Content }>
-                            <div className={ styles.Content_Title }>
-                              {
-                                data.length > 0 &&
-                                <h1><span>{ data[0].the_temp.toString().charAt(0)  }</span><sub>{ data[0].the_temp.toString().charAt(1) }</sub> °C</h1>
-                              }
-                            </div>
-                            <div className={ styles.Content_SubTitle }>
-                              {
-                                data.length > 0 &&
-                                <h2>{ data[0].weather_state_name }</h2>
-                              }
-                            </div>
-                            <div className={ styles.Content_Info }>
-                              <div className={ styles.Date }>
-                                <h3>Today</h3>
-                                <h3>.</h3>
-                                {
-                                  data.length > 0 &&
-                                  <h3>{ formatDate(data[0].applicable_date) }</h3>
-                                }
-                              </div>
-                              <div className={ styles.Place }>
-                                <div className={ styles.Place_Icon }>
-                                  <img src={ imgIconLocation } alt="icon-location" />
-                                </div>
-                                {
-                                  data.length > 0 &&
-                                  <h3>{ location }</h3>
-                                }
-                              </div>
-                            </div>
-                          </section>
-                      </div>
-                }
-              </section>
-              <section className={ styles.Info }>
-                {
-                  loading 
-                    ? <Loader />
-                    : 
-                      <>
-                      <div className={ styles.Info_CardMain }>
-                        {
-                          data.length > 0 &&
-                          <>
-                              <CardWheater 
-                                title='Tomorrow' 
-                                imagen={ imgWheathers[data[0].weather_state_abbr] }
-                                max={ parseInt(data[0].max_temp).toString() }
-                                min= {  parseInt(data[0].min_temp).toString() }
-                              />
-                              <CardWheater 
-                                title={ formatDate(data[1].applicable_date) } 
-                                imagen={ imgWheathers[data[1].weather_state_abbr] }
-                                max={ parseInt(data[1].max_temp).toString() }
-                                min= {  parseInt(data[1].min_temp).toString() }
-                              />
-                              <CardWheater 
-                                title={ formatDate(data[2].applicable_date) }
-                                imagen={ imgWheathers[data[2].weather_state_abbr] }
-                                max={ parseInt(data[2].max_temp).toString() }
-                                min= {  parseInt(data[2].min_temp).toString() }
-                              />
-                              <CardWheater 
-                                title={ formatDate(data[3].applicable_date) } 
-                                imagen={ imgWheathers[data[3].weather_state_abbr] }
-                                max={ parseInt(data[3].max_temp).toString() }
-                                min= {  parseInt(data[3].min_temp).toString() }
-                              />
-                              <CardWheater 
-                                title={ formatDate(data[4].applicable_date) } 
-                                imagen={ imgWheathers[data[4].weather_state_abbr] }
-                                max={ parseInt(data[4].max_temp).toString() }
-                                min= {  parseInt(data[4].min_temp).toString() }
-                              />
-                          </>
-                        }
-                      </div>
+                          </div>
+                        <footer className={ styles.Info_Footer }>
+                            <h4>Developed by HAHS</h4>
+                        </footer>
+                        </>
+                  }
+                </section>
 
-                      <div className={ styles.Info_Title }>
-                        <h2>Today’s Hightlights </h2>
-                      </div>
-
-                      <div className={ styles.Info_CardSecundary }>
-                        {
-                          data.length > 0 &&
-                          <>
-                            <CardSecundary title='Wind status' data={ parseInt(data[0].wind_speed).toString() } subTitle='mph'>
-                              <div className={ styles.Info_CardSecundary__Icon}>
-                                <img src={ imgArrow } alt="icon-arrow" />
-                              </div>
-                              <div>
-                                <h4>WSV</h4>
-                              </div>
-                            </CardSecundary>
-                            <CardSecundary title='Humidity' data={ parseInt(data[0].humidity).toString() } subTitle='%'>
-                              <section className={ styles.Numbers }>
-                                <h4>0</h4>
-                                <h4>50</h4>
-                                <h4>100</h4>
-                              </section>
-                              <progress className={ styles.Bar } value={  data[0].humidity } max='100' ></progress>
-                              <section className={ styles.Percentage }>
-                                <h4>%</h4>
-                              </section>
-                            </CardSecundary >
-                            <CardSecundary title='Visibility' data={ parseInt(data[0].visibility).toString() } subTitle='miles'/>
-                            <CardSecundary title='Air Pressure' data={ parseInt(data[0].air_pressure).toString() } subTitle='mb'/>
-                          </>
-                        }
-                      </div>
-                      <footer className={ styles.Info_Footer }>
-                          <h4>Developed by HAHS</h4>
-                      </footer>
-                      </>
-                }
-              </section>
                 <section className={ active ? `${ styles.Search } ${ styles.Search__active }` : styles.Search }>
                   <section className={ styles.Search_cancel }>
                     <button type='button' onClick={ handleCancel }>X</button>
@@ -287,14 +188,15 @@ function App() {
                     {
                       filters.length > 0 &&
                         filters.map(item => (
-                          <ItemSearch key={ item.title } title={ item.title } data={ item.woeid } handle={ handleGetData }/>
+                          <ItemSearch key={ item.woeid } title={ item.title } data={ item.woeid } handle={ handleGetData }/>
                         ))
                     }
                   </section>
                 </section>
-            </>
-      }
-    </div>
+              </>
+        }
+      </div>
+    </AppContext.Provider>
   );
 }
 
