@@ -302,6 +302,7 @@
     align-items: center;
     justify-content: space-evenly;
     width: 70%;
+    max-width: 350px;
     height: 40px;
     border: 1px solid var(--color-white);
 }
@@ -342,10 +343,12 @@
 .OptionsList {
     grid-area: 3 / 1 / 4 / 2;
     justify-self: center;
+    display: flex;
+    flex-direction: column;
     width: 90%;
 }
 
-.OptionsList select {
+/* .OptionsList select {
     width: 100%;
     max-width: 250px;
     height: 45px;
@@ -364,7 +367,7 @@
     font-family: var(--fontFamily);
     border: none;
     outline: none;
-}
+} */
 
 .Info_Footer {
     display: flex;

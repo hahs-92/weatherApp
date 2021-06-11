@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 //ESTILOS
 import './styles/Global.css'
 import styles from './styles/App.module.css'
@@ -7,6 +7,7 @@ import CardWheater from './components/CardWheater'
 import CardSecundary from './components/CardSecundary'
 import Loader from './components/Loader'
 import Error from './components/Error'
+import ItemSearch from './components/ItemSearch'
 //IMAGE
 import imgSearch from './assets/lupa.svg'
 import imgLocationUser from './assets/cliente.svg'
@@ -17,13 +18,14 @@ import { imgWheathers } from './utils/weatherImages'
 
 
 function App() {
-  const [ active, setActive ] = useState(false)
+  const [ active, setActive ] = useState(true)
   const [ data, setData ] = useState([])
   const [ location, setLocation ] = useState('')
   const [ coords, setCoords ] = useState('')
   const [ loading, setLoading ] = useState(false)
   const [ error, setError ] = useState(false)
   const [ isWrong,  setIsWrong ] = useState(false)
+  const [ filters, setFilters ] = useState([])
   // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
   const CORS_PROXY_URL = 'https://api.allorigins.win/raw?url=' 
   const URLAPI = "https://www.metaweather.com/api/"
@@ -45,8 +47,9 @@ function App() {
     try {  
       const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/search/?${ query }=${ coord }`)
       const data = await response.json()
-      setLocation(data[0].title)
-      return data[0].woeid
+      // setLocation(data[0].title)
+      // return data[0].woeid
+      setFilters(data)
     } catch (error) {
       console.error("ErrorgetWoeid ",error.message)
     }
@@ -57,11 +60,11 @@ function App() {
     return `${ newDate[0] }, ${ newDate[2] } ${ newDate[1] }`
   }
 
-  const getData = async(coords= placePosition, query= QUERYLATLOT ) => {
+  const getData = async(query ) => {
     setLoading(true)
     try { 
-      const woeid =  await getWoeidData( coords, query)
-      const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/${ woeid }`)
+      // const woeid =  await getWoeidData( coords, query)
+      const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/${ query }`)
       const info = await response.json()
       setData(info.consolidated_weather)
       setLoading(false)
@@ -81,12 +84,11 @@ function App() {
   }
 
   const handleSearch = () => {
-    if(!coords.split('').includes(',') || !coords) {
+    if(!coords) {
       setIsWrong(true)
       return false
     }
-    getData(coords)
-    setActive(false)
+    getWoeidData(coords, QUERY)
     setIsWrong(false)
   }
 
@@ -94,24 +96,26 @@ function App() {
     setCoords(e.target.value)
   }
 
-  const handleInitialData = () => {
-    getData()
+  const handleGetData = (query) => { //ESTO SE PASA COMO PROPS
+    const COUNTRYWEOID = query.target.dataset.woeid || query.target.parentElement.dataset.woeid || query.target.parentElement.parentElement.dataset.woeid
+    getData(COUNTRYWEOID)
+    setActive(false)
   }
 
-  const handleSearchCountry = (e) => {
-    getData(e.target.value, QUERY)
-    setActive(false)
-    setIsWrong(false)
-  }
+  // const handleSearchCountry = (e) => {
+  //   getData(e.target.value, QUERY)
+  //   setActive(false)
+  //   setIsWrong(false)
+  // }
 
   const handleRestart = () => {
     getData()
     setError(false)
   }
 
-  useEffect(() => {
-    getData()// eslint-disable-next-line 
-  },[])
+  // useEffect(() => {
+  //   getData()// eslint-disable-next-line 
+  // },[])
 
   return (
     <div className={ styles.App }>
@@ -129,7 +133,7 @@ function App() {
                           <section className={ styles.Background }></section>
                           <section className={ styles.Input }>
                             <button type='button' onClick={ handleOnClick }>Search for places</button>
-                            <div className={ styles.UserLocation } onClick={ handleInitialData }>
+                            <div className={ styles.UserLocation } >
                               <img src={ imgLocationUser } alt="icon-user-location" title='User Location' />
                             </div>
                           </section>
@@ -263,11 +267,11 @@ function App() {
                   </section>
                   <section className={ styles.Coords }>
                     <div className={ styles.Coords_Label }>
-                      <label htmlFor="lat-long">Search: lat, long</label>
+                      <label htmlFor="lat-long">Search</label>
                     </div>
                     <div className={ styles.Coords_input }>
                       <img src={ imgSearch } alt="search-icon" />
-                      <input id='lat-long' type="text" placeholder='5.8755834, -73.6688084' required onChange={ handleOnChange }/>
+                      <input id='lat-long' type="text" placeholder='ejm: Bogotá' required onChange={ handleOnChange }/>
                     </div>
                     <div className={ styles.Coords_button }>
                       <input type="button" value='search' onClick={ handleSearch }/>
@@ -280,19 +284,12 @@ function App() {
                     }
                   </section>
                   <section className={ styles.OptionsList }>
-                    <select name="countries" id="countries" onChange={ handleSearchCountry }>
-                      <option value="Bogotá">Bogota</option>
-                      <option value="Barcelona">Barcelona</option>
-                      <option value="Brasília">Brasília</option >
-                      <option value="New York">New York</option >
-                      <option value="London">London</option>
-                      <option value="Berlin">Berlin</option>
-                      <option value="Tokyo">Tokyo</option >
-                      <option value="Beijing">Beijing</option>
-                      <option value="Sydney">Sydney</option >
-                      <option value="Moscow">Moscow</option>
-                      <option value="Cairo">Cairo</option>
-                    </select>
+                    {
+                      filters.length > 0 &&
+                        filters.map(item => (
+                          <ItemSearch key={ item.title } title={ item.title } data={ item.woeid } handle={ handleGetData }/>
+                        ))
+                    }
                   </section>
                 </section>
             </>
