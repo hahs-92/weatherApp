@@ -8,7 +8,7 @@ const CardWheater = (props) => {
                 <h4>{ props.title }</h4>
             </div>
             <div className={ styles.Imagen }>
-                <img src={ props.imagen } alt={ props.name } />
+                <img src={ props.imagen } alt={ props.title } />
             </div>
             <div className={ styles.Temperature }>
                 <h4>{ props.max }°C</h4>
