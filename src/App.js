@@ -47,6 +47,8 @@ function App() {
         headers: {
                'Content-Type': 'application/json',
                'Access-Control-Allow-Origin': '*',
+               'Origin': 'https://www.metaweather.com/api/',
+               'Access-Control-Allow-Methods': 'GET'
         }
       })
       const data = await response.json()
@@ -71,6 +73,8 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
+          'Origin': 'https://www.metaweather.com/api/',
+          'Access-Control-Allow-Methods': 'GET'
         }
       })
       const info = await response.json()
