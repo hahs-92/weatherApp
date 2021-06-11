@@ -42,7 +42,8 @@ function App() {
 
   const getWoeidData = async(coord, query = QUERYLATLOT) => {
     try {  
-      const response = await fetch(`${ CORSHEROKU }${URLAPI }location/search/?${ query }=${ coord }`, {
+      const response = await fetch(`${URLAPI }location/search/?${ query }=${ coord }`, {
+        method:'GET',
         headers: {
                'Content-Type': 'application/json',
                'Access-Control-Allow-Origin': '*',
@@ -65,7 +66,13 @@ function App() {
     setLoading(true)
     try { 
       const woeid =  await getWoeidData( coords, query)
-      const response = await fetch(`${ CORSHEROKU }${ URLAPI }location/${ woeid }/`)
+      const response = await fetch(`${ URLAPI }location/${ woeid }/`,{
+        method:'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        }
+      })
       const info = await response.json()
       setData(info.consolidated_weather)
       setLoading(false)
