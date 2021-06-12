@@ -1,9 +1,19 @@
+import { useContext } from 'react'
 //ESTILOS
 import styles from '../styles/components/Error.module.css'
 //IMAGES
 import imgAlert from '../assets/advertencia.svg'
+//CONTEXT
+import { AppContext } from '../context/AppContext'
 
-const Error = (props) => {
+const Error = () => {
+    const { setData, setError } = useContext(AppContext)
+        
+    const handleClick = () => {
+        setData([])
+        setError(false)
+    }
+
     return(
         <article className={ styles.Error }>
             <section className={ styles.Imagen }> 
@@ -13,7 +23,7 @@ const Error = (props) => {
                 <h3>Something is wrong¡¡</h3>
             </section>
             <section className={ styles.Home }>
-                <button type='button' aria-label='button-home' onClick={ props.handle }>
+                <button type='button' aria-label='button-home' onClick={ handleClick }>
                     Home
                 </button>
             </section>

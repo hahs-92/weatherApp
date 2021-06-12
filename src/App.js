@@ -41,17 +41,13 @@ function App() {
     }
   }
 
-  const handleRestart = () => {
-    getData()
-    setError(false)
-  }
-
   return (
-    <AppContext.Provider value={ { data, setData, active, setActive, location, setLocation, filters, setFilters, coords, setCoords, error, setError, loading, setLoading } }> 
+    <AppContext.Provider 
+      value={ { data, setData, active, setActive, location, setLocation, filters, setFilters, coords, setCoords, error, setError, loading, setLoading } }> 
       <div className={ styles.App }>
         {
           error 
-            ? <Error handle={ handleRestart }/>
+            ? <Error />
             : 
               <>
                 <section className={ styles.Overview }>
