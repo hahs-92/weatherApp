@@ -4,6 +4,7 @@ import styles from '../styles/components/Overview.module.css'
 //IMAGES
 import imgLocationUser from '../assets/cliente.svg'
 import imgIconLocation from '../assets/pin.svg'
+import imgSun from '../assets/Clear.png'
 //CONTEXT
 import { AppContext } from '../context/AppContext'
 //UTILS
@@ -51,23 +52,30 @@ const Overview = () => {
                     }
                 </div>
                 <div className={ styles.Content_Info }>
-                    <div className={ styles.Date }>
-                    <h3>Today</h3>
-                    <h3>.</h3>
                     {
-                        data.length > 0 &&
-                        <h3>{ formatDate(data[0].applicable_date) }</h3>
+                        data.length > 0 
+                        ?
+                        <>
+                            <div className={ styles.Date }>
+                                <h3>Today</h3>
+                                <h3>.</h3>
+                                <h3>{ formatDate(data[0].applicable_date) }</h3> 
+                            </div>
+                            <div className={ styles.Place }>
+                                <div className={ styles.Place_Icon }>
+                                    <img src={ imgIconLocation } alt="icon-location" />
+                                </div>
+                                <h3>{ location }</h3>
+                            </div>
+                        </>
+                        : 
+                        <section>
+                            <div>
+                                <img src={ imgSun } alt="icon-sun" />
+                            </div>
+                            <h2>Weather App</h2>
+                        </section>
                     }
-                    </div>
-                    <div className={ styles.Place }>
-                    <div className={ styles.Place_Icon }>
-                        <img src={ imgIconLocation } alt="icon-location" />
-                    </div>
-                    {
-                        data.length > 0 &&
-                        <h3>{ location }</h3>
-                    }
-                    </div>
                 </div>
             </section>
     </article>

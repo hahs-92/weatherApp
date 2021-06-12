@@ -2,6 +2,8 @@ import { useState } from 'react'
 //ESTILOS
 import './styles/Global.css'
 import styles from './styles/App.module.css'
+//IMAGES
+import imgLightCloud  from './assets/LightCloud.png'
 //COMPONENTS
 import Loader from './components/Loader'
 import Error from './components/Error'
@@ -57,7 +59,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={ { data, setData, active, setActive, location, setLocation, filters, setFilters, coords, setCoords, error, setError } }> 
+    <AppContext.Provider value={ { data, setData, active, setActive, location, setLocation, filters, setFilters, coords, setCoords, error, setError, loading, setLoading } }> 
       <div className={ styles.App }>
         {
           error 
@@ -73,25 +75,33 @@ function App() {
                 </section>
                 <section className={ styles.Info }>
                   {
+                    data.length === 0 && !loading &&
+                      <section className={ styles.Info_Default }>
+                        <h1>Weather App</h1>
+                        <div className={ styles.Default_Imagen }>
+                          <img src={ imgLightCloud } alt="icon-weather" />
+                        </div>
+                      </section>
+                  }
+                  {
                     loading 
                       ? <Loader />
                       : 
                         <>
                           <InfoCardMain />
-
-                          <div className={ styles.Info_Title }>
-                            <h2>Today’s Hightlights </h2>
-                          </div>
-
+                          {
+                            data.length > 0 &&
+                            <div className={ styles.Info_Title }>
+                              <h2>Today’s Hightlights </h2>
+                            </div>
+                          }
                           <InfoCardSecundary />
-
                           <footer className={ styles.Info_Footer }>
                               <h4>Developed by HAHS</h4>
                           </footer>
                         </>
                   }
                 </section>
-
                 <section className={ active ? `${ styles.Search } ${ styles.Search__active }` : styles.Search }>
                   <SearchContent />
                 </section>

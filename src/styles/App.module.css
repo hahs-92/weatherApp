@@ -36,6 +36,35 @@
     color: var(--color-white);
 }
 
+.Info_Default {
+    align-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 80%;
+    min-height: 300px;
+}
+
+.Info_Default h1 {
+    height: 100px;
+    text-align: center;
+    width: 100%;
+}
+
+.Default_Imagen  {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+}
+
+.Default_Imagen img {
+    width: 50%;
+    max-width: 300px;
+    object-fit: contain;
+}
+
 .Search {
     grid-area: 1 / 1 / 2 / 2;
     display: grid;

@@ -14,7 +14,6 @@ const ItemSearch = (props) => {
     const getData = async(query ) => {
         setLoading(true)
         try { 
-          // const woeid =  await getWoeidData( coords, query)
           const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/${ query }`)
           const info = await response.json()
           setData(info.consolidated_weather)
@@ -26,14 +25,19 @@ const ItemSearch = (props) => {
         }
     }
 
-    const handleGetData = (query) => { //ESTO SE PASA COMO PROPS
-        const COUNTRYWEOID = query.target.dataset.woeid || query.target.parentElement.dataset.woeid || query.target.parentElement.parentElement.dataset.woeid
-        const COUNTRY = query.target.innerText  || query.target.parentElement.innerText || query.target.parentElement.parentElement.innerText
+    const handleGetData = (query) => { 
+        const COUNTRYWEOID = query.target.dataset.woeid ||
+                            query.target.parentElement.dataset.woeid ||
+                            query.target.parentElement.parentElement.dataset.woeid
+        const COUNTRY = query.target.innerText  || 
+                        query.target.parentElement.innerText || 
+                        query.target.parentElement.parentElement.innerText
         getData(COUNTRYWEOID)
         setActive(false)
         setFilters([])
         setLocation(COUNTRY)
     }
+    
     return(
         <article className={ styles.ItemSearch } data-woeid={ props.data } onClick={ handleGetData }>
             <section className={ styles.Title }>
