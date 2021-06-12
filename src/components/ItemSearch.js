@@ -23,7 +23,7 @@ const ItemSearch = (props) => {
           setCoords('')
           console.error("ErrorGetData ",error.message)
         }
-    }
+    } 
 
     const handleGetData = (query) => { 
         const COUNTRYWEOID = query.target.dataset.woeid ||

@@ -23,23 +23,6 @@ function App() {
   const [ loading, setLoading ] = useState(false)
   const [ error, setError ] = useState(false)
   const [ filters, setFilters ] = useState([])
-  // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
-  const CORS_PROXY_URL = 'https://api.allorigins.win/raw?url=' 
-  const URLAPI = "https://www.metaweather.com/api/"
-
-  const getData = async(query ) => {
-    setLoading(true)
-    try { 
-      const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/${ query }`)
-      const info = await response.json()
-      setData(info.consolidated_weather)
-      setLoading(false)
-    } catch (error) {
-      setError(true)
-      setCoords('')
-      console.error("ErrorGetData ",error.message)
-    }
-  }
 
   return (
     <AppContext.Provider 
