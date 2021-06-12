@@ -12,7 +12,7 @@ const Error = () => {
     const handleClick = () => {
         setData([])
         setError(false)
-        setLoading()
+        setLoading(false)
     }
 
     return(
