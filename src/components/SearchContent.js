@@ -15,7 +15,6 @@ const SearchContent = () => {
     const [ isWrong,  setIsWrong ] = useState(false)
     const QUERY = 'query'
 
-
     const handleOnChange = (e) => {
         setCoords(e.target.value)
     }

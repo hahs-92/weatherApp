@@ -12,11 +12,6 @@ import CardWeather from './CardWeather'
 const InfoCardMain = () => {
     const { data } = useContext(AppContext)
 
-    // const formatDate = (date) => {
-    //     let newDate = new Date(date).toDateString().split(' ')
-    //     return `${ newDate[0] }, ${ newDate[2] } ${ newDate[1] }`
-    // } 
-
     return(
         <div className={ styles.InfoCardMain }>
             {
