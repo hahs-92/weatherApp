@@ -7,11 +7,12 @@ import imgAlert from '../assets/advertencia.svg'
 import { AppContext } from '../context/AppContext'
 
 const Error = () => {
-    const { setData, setError } = useContext(AppContext)
+    const { setData, setError, setLoading } = useContext(AppContext)
         
     const handleClick = () => {
         setData([])
         setError(false)
+        setLoading()
     }
 
     return(
