@@ -7,27 +7,14 @@ import imgSearch from '../assets/lupa.svg'
 import { AppContext } from '../context/AppContext'
 //COMPONENT
 import ItemSearch from '../components/ItemSearch'
+//UTILS
+import { getWoeidData } from '../utils/woeidData'
 
 const SearchContent = () => {
-    const { filters, setFilters, setCoords, setActive, coords } = useContext(AppContext)
+    const { filters, setFilters, setCoords, setActive, coords, setError } = useContext(AppContext)
     const [ isWrong,  setIsWrong ] = useState(false)
-    const QUERYLATLOT = 'lattlong'
     const QUERY = 'query'
-    // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
-    const CORS_PROXY_URL = 'https://api.allorigins.win/raw?url=' 
-    const URLAPI = "https://www.metaweather.com/api/"
 
-    const getWoeidData = async(coord, query = QUERYLATLOT) => {
-        try {  
-          const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/search/?${ query }=${ coord }`)
-          const data = await response.json()
-          // setLocation(data[0].title)
-          // return data[0].woeid
-          setFilters(data)
-        } catch (error) {
-          console.error("ErrorgetWoeid ",error.message)
-        }
-    }
 
     const handleOnChange = (e) => {
         setCoords(e.target.value)
@@ -37,13 +24,19 @@ const SearchContent = () => {
         setActive(false)
     }
 
-    const handleSearch = () => {
+    const handleSearch = async() => {
         if(!coords) {
-          setIsWrong(true)
-          return false
+            setIsWrong(true)
+            return false
         }
-        getWoeidData(coords, QUERY)
-        setIsWrong(false)
+        try {
+            const data = await getWoeidData(coords, QUERY)
+            setFilters(data)
+            setIsWrong(false)
+            
+        } catch (error) {
+            setError(true)
+        }
     }
 
     return(
@@ -65,7 +58,7 @@ const SearchContent = () => {
                 {
                     isWrong &&
                     <div className={ styles.Coords_alert }>
-                        <h4>Please enter coordinates</h4>
+                        <h4>Please, enter a city name</h4>
                     </div>
                 }
             </section>

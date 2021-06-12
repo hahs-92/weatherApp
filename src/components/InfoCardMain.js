@@ -5,16 +5,17 @@ import styles from '../styles/components/InfoCardMain.module.css'
 import { AppContext } from '../context/AppContext'
 //UTILS
 import { imgWheathers } from '../utils/weatherImages'
+import { formatDate } from '../utils/formatDate'
 //COMPONENTES
 import CardWeather from './CardWeather'
 
 const InfoCardMain = () => {
     const { data } = useContext(AppContext)
 
-    const formatDate = (date) => {
-        let newDate = new Date(date).toDateString().split(' ')
-        return `${ newDate[0] }, ${ newDate[2] } ${ newDate[1] }`
-    }
+    // const formatDate = (date) => {
+    //     let newDate = new Date(date).toDateString().split(' ')
+    //     return `${ newDate[0] }, ${ newDate[2] } ${ newDate[1] }`
+    // } 
 
     return(
         <div className={ styles.InfoCardMain }>

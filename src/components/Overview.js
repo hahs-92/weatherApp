@@ -9,17 +9,51 @@ import imgSun from '../assets/Clear.png'
 import { AppContext } from '../context/AppContext'
 //UTILS
 import { imgWheathers } from '../utils/weatherImages'
+import { getWoeidData } from '../utils/woeidData'
+import { formatDate } from '../utils/formatDate'
 
 const Overview = () => {
-    const { data, setActive, location } = useContext(AppContext)
+    const CORS_PROXY_URL = 'https://api.allorigins.win/raw?url=' 
+    const URLAPI = "https://www.metaweather.com/api/"
+    const { data, setActive, location,setLocation, setData, setLoading, setError, setCoords } = useContext(AppContext)
 
-    const formatDate = (date) => {
-        let newDate = new Date(date).toDateString().split(' ')
-        return `${ newDate[0] }, ${ newDate[2] } ${ newDate[1] }`
+      // __________________________GEOPOSITION_________________________________________
+    const positionUser = async( position) => {
+        let placePosition =  [ position.coords.latitude, position.coords.longitude] 
+        try {     
+            const woeid = await getWoeidData( placePosition)
+            getData(woeid[0].woeid)
+            setLocation(woeid[0].title)
+        } catch (error) {
+            setError(true)
+        }
     }
+    const errorNavigator = (error) => {
+        console.error(error.message)
+    }
+    // _______________________________________________________________________________________
+
+    const getData = async(query ) => {
+        setLoading(true)
+        try { 
+          const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/${ query }`)
+          const info = await response.json()
+          setData(info.consolidated_weather)
+          setLoading(false)
+        } catch (error) {
+          setError(true)
+          setCoords('')
+          console.error("ErrorGetData ",error.message)
+        }
+    }
+
 
     const handleOnClick = () => {
         setActive(true)
+    }
+
+    const handleUserLocation = async() => {
+        navigator.geolocation.getCurrentPosition(positionUser, errorNavigator,{ enableHighAccuracy: true } )
     }
 
     return(
@@ -28,7 +62,7 @@ const Overview = () => {
             <section className={ styles.Background }></section>
             <section className={ styles.Input }>
                 <button type='button' onClick={ handleOnClick }>Search for places</button>
-                <div className={ styles.UserLocation } >
+                <div className={ styles.UserLocation }  onClick={ handleUserLocation }>
                     <img src={ imgLocationUser } alt="icon-user-location" title='User Location' />
                 </div>
             </section>

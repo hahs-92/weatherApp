@@ -26,22 +26,10 @@ function App() {
   // const CORSHEROKU = "https://cors-anywhere.herokuapp.com/"
   const CORS_PROXY_URL = 'https://api.allorigins.win/raw?url=' 
   const URLAPI = "https://www.metaweather.com/api/"
-  let placePosition = ''
-
-  // __________________________GEOPOSITION_________________________________________
-  const positionUser = ( position) => {
-    placePosition = [ position.coords.latitude, position.coords.longitude] 
-  }
-  const errorNavigator = (error) => {
-    console.error(error.message)
-  }
-  navigator.geolocation.getCurrentPosition(positionUser, errorNavigator,{ enableHighAccuracy: true } )
-  // _______________________________________________________________________________________
 
   const getData = async(query ) => {
     setLoading(true)
     try { 
-      // const woeid =  await getWoeidData( coords, query)
       const response = await fetch(`${ CORS_PROXY_URL }${ URLAPI }location/${ query }`)
       const info = await response.json()
       setData(info.consolidated_weather)
