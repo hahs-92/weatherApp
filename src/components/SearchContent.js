@@ -23,7 +23,8 @@ const SearchContent = () => {
         setActive(false)
     }
 
-    const handleSearch = async() => {
+    const handleSubmit = async(e) => {
+        e.preventDefault()
         if(!coords) {
             setIsWrong(true)
             return false
@@ -43,16 +44,16 @@ const SearchContent = () => {
             <section className={ styles.Search_cancel }>
                 <button type='button' onClick={ handleCancel }>X</button>
             </section>
-            <section className={ styles.Coords }>
+            <form className={ styles.Coords } onSubmit={ handleSubmit }>
                 <div className={ styles.Coords_Label }>
                     <label htmlFor="lat-long">Search</label>
                 </div>
                 <div className={ styles.Coords_input }>
                     <img src={ imgSearch } alt="search-icon" />
-                    <input id='lat-long' type="text" placeholder='ejm: Bogotá' required onChange={ handleOnChange }/>
+                    <input value={ coords } id='lat-long' type="text" placeholder='ejm: Bogotá' required onChange={ handleOnChange }/>
                 </div>
                 <div className={ styles.Coords_button }>
-                    <input type="button" value='search' onClick={ handleSearch }/>
+                    <input type="submit" value='search'/>
                 </div>
                 {
                     isWrong &&
@@ -60,7 +61,7 @@ const SearchContent = () => {
                         <h4>Please, enter a city name</h4>
                     </div>
                 }
-            </section>
+            </form>
             <section className={ styles.OptionsList }>
                 {
                     filters.length > 0 &&
